@@ -9,7 +9,8 @@ namespace ChannelsDemo
         static async Task Main(string[] args)
         {
             var channel = Channel.CreateBounded<int>(2);
-            _ = Task.Run(async delegate {
+            var producer = Task.Run(async delegate
+            {
                 for (int i = 0; i < 100; i++)
                 {
                     await Task.Delay(500);
@@ -17,11 +18,16 @@ namespace ChannelsDemo
                 }
                 channel.Writer.Complete();
             });
-            await foreach (var item in channel.Reader.ReadAllAsync())
+            var consumer = Task.Run(async delegate
             {
-                Console.WriteLine(item);
-                await Task.Delay(1000);
-            }
+                await foreach (var item in channel.Reader.ReadAllAsync())
+                {
+                    Console.WriteLine(item);
+                    await Task.Delay(1000);
+                }
+            });
+            await Task.WhenAll(producer,consumer);
+
         }
     }
 }
