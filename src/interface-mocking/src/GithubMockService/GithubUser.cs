@@ -6,5 +6,14 @@ namespace GithubMockService
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfilePictureUrl { get; set; }
+        public GithubUser()
+        {
+            
+        }
+
+        public GithubUser(string userName)
+        {
+            UserName = userName;
+        }
     }
 }
