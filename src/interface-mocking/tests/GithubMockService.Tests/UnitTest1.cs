@@ -11,7 +11,7 @@ namespace GithubMockService.Tests
         public async Task GetsUserFromApi()
         {
             var mock = new Mock<IGithubService>();
-            mock.Setup(a=>a.GetUserAsync("xyz"))
+            mock.Setup(a=>a.GetUserAsync(It.IsAny<string>()))
                 .Returns(ValueTask.FromResult(new GithubUser
                 {
                     FirstName = "Github",
@@ -19,7 +19,7 @@ namespace GithubMockService.Tests
                     UserName = "xyz"
                 }));
             var service = mock.Object;
-            var result = await service.GetUserAsync("xyz");
+            var result = await service.GetUserAsync(It.IsAny<string>());
             Assert.Equal("xyz", result.UserName);
         }
 
@@ -27,10 +27,10 @@ namespace GithubMockService.Tests
         public async Task ThrowsExceptionIfUserDoesntExist()
         {
             var mock = new Mock<IGithubService>();
-            mock.Setup(a=>a.GetUserAsync("abc"))
+            mock.Setup(a=>a.GetUserAsync(It.IsAny<string>()))
                 .Throws<GithubUserNotFoundException>();
             var service = mock.Object;
-            await Assert.ThrowsAsync<GithubUserNotFoundException>(async () => await service.GetUserAsync("abc"));
+            await Assert.ThrowsAsync<GithubUserNotFoundException>(async () => await service.GetUserAsync(It.IsAny<string>()));
         }
     }
 }
