@@ -1,2 +1,2 @@
 # Dotnet Playground
-This repository contains some important topics I cover at my [website](https://wajahataliabid.com)
+This is my playground for practicing different things related to .Net Core.
